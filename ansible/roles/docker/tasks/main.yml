@@ -2,25 +2,35 @@
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
+  become: yes
 
 - name: "APT - Add Docker repository"
   apt_repository:
     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
     state: present
     filename: docker
+  become: yes
 
 - name: "APT - install misc packages"
   apt:
     name: ['aptitude', 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common']
     update_cache: yes
+  become: yes
   
 - name: "APT - install 'docker-ce'"
   apt:
     name: "docker-ce"
     update_cache: yes
+  become: yes
+
+- name: "APT - install 'docker-compose'"
+  apt:
+    name: "docker-compose"
+  become: yes
 
 - name: Added user to docker group
   user:
     name: "{{ USER_NAME }}"
     groups: docker
     append: yes
+  become: yes
