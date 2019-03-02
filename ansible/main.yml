@@ -7,4 +7,6 @@
   roles:
     - common
     - docker
+    - minecraft
+
 
