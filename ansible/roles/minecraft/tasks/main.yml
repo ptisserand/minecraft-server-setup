@@ -1,0 +1,27 @@
+- name: Create minecraft data directory
+  file:
+    path: "{{ MINECRAFT_DATA_DIR }}"
+    state: directory
+
+- name: Download minecraft server jar
+  get_url:
+    url: "{{ MINECRAFT_SERVER_JAR_URL }}"
+    dest: "{{ MINECRAFT_DATA_DIR }}/{{ MINECRAFT_SERVER_JAR }}"
+  become_user: "{{ USER_NAME }}"
+
+- name: Copy minecraft tarball
+  unarchive:
+    src: minecraft-config-1.13.2.tar.gz
+    dest: "{{ MINECRAFT_DATA_DIR }}"
+    owner: "{{ USER_NAME }}"
+  become_user: "{{ USER_NAME }}"
+
+- name: Copy docker files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ MINECRAFT_ROOT_DIR }}"
+    owner: "{{ USER_NAME }}"
+  with_items:
+    - Dockerfile
+    - docker-compose.yml
+  become_user: "{{ USER_NAME }}"

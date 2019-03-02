@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  minecraft:
+    build: .
+    volumes:
+      - ./data:/data
+    ports:
+      - 16666:25565
+      - 16888:25575
+
