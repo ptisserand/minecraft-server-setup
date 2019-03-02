@@ -1,0 +1,23 @@
+- name: Create groups
+  group:
+    name: "{{ USER_GROUP }}"
+  become: yes
+
+- name: Create users
+  user:
+    name: "{{ item }}"
+    groups: "{{ USER_GROUP }}"
+    append: yes
+    shell: /bin/bash
+  with_items: "{{ USER_NAME }}"
+  become: yes
+
+- name: Install package
+  package:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - ansible
+    - git
+    - wget
+  become: yes

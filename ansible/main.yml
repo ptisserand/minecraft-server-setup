@@ -1,0 +1,10 @@
+- hosts:
+  - minecraft
+  vars:
+    - USER_NAME: "minecraft"
+    - USER_GROUP: "minecraft"
+  
+  roles:
+    - common
+    - docker
+
