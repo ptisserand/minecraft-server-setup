@@ -17,6 +17,19 @@
   become_user: "{{ USER_NAME }}"
   when: inventory_hostname != "localhost"
 
+- name: Copy minecraft files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ MINECRAFT_DATA_DIR }}"
+    owner: "{{ USER_NAME }}"
+  with_items:
+    - server.properties
+    - eula.txt
+    - ops.json
+    - whitelist.json
+  become_user: "{{ USER_NAME }}"
+  when: inventory_hostname == "localhost"
+
 - name: Copy docker files
   copy:
     src: "{{ item }}"
