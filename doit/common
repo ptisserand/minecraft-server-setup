@@ -1,0 +1,10 @@
+source ${HOME}/minecraft-server.cfg
+
+ssh_cmd() {
+    local user=${1}
+    local server=${2}
+    shift
+    shift
+
+    ssh -l ${user} ${server} "$*"
+}
