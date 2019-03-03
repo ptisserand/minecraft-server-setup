@@ -2,11 +2,13 @@
   file:
     path: "{{ MINECRAFT_DATA_DIR }}"
     state: directory
-
+    owner: "{{ USER_NAME }}"
+  
 - name: Download minecraft server jar
   get_url:
     url: "{{ MINECRAFT_SERVER_JAR_URL }}"
     dest: "{{ MINECRAFT_DATA_DIR }}/{{ MINECRAFT_SERVER_JAR }}"
+    owner: "{{ USER_NAME }}"
   become_user: "{{ USER_NAME }}"
 
 - name: Copy minecraft tarball
