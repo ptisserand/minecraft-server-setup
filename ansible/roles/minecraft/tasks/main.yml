@@ -15,6 +15,7 @@
     dest: "{{ MINECRAFT_DATA_DIR }}"
     owner: "{{ USER_NAME }}"
   become_user: "{{ USER_NAME }}"
+  when: inventory_hostname != "localhost"
 
 - name: Copy docker files
   copy:
