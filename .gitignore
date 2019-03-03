@@ -1,0 +1,5 @@
+ansible/main.retry
+ansible/inventory.ini
+ansible/roles/minecraft/files/data
+ansible/roles/minecraft/files/minecraft-config-1.13.2.tar.gz
+doit/minecraft-setup.sh
