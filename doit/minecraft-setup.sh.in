@@ -1,0 +1,21 @@
+#!/bin/sh
+
+apt-get update
+apt-get install -y git ansible curl tmux
+mkdir -p /work
+git clone https://github.com/ptisserand/minecraft-server-setup /work/minecraft-server
+cd /work/minecraft-server/ansible
+cat > inventory.local << EOF
+[minecraft]
+localhost ansible_connection=local
+EOF
+echo "Set password"
+sed -i "s|@RCON_PASSWORD@|@LOCAL_RCON_PASSWORD@|g" /work/minecraft-server/ansible/roles/minecraft/files/server.properties
+echo "Running ansible"
+ansible-playbook -i ./inventory.local main.yml
+# At this step, minecraft user is created
+su - minecraft
+cd /home/minecraft/server
+docker-compose up -d
+tmux new-session -d -s minecraft docker-compose logs -f
+echo "Minecraft server is running"
