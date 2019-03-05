@@ -57,7 +57,7 @@ destroy_domain() {
 }
 
 # minecraft_stop
-#minecraft_world_backup ./world-$(date +%Y-%m-%d_%H-%m).tar.gz
+minecraft_world_backup ./world-shutdown-$(date +%Y-%m-%d_%H-%m).tar.gz
 
 if [ "x${FORCE}" == "x" ]; then
     server_shutdown
