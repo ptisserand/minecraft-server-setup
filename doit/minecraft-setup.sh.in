@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+
+TARBALL="world-shutdown-latest.tar.gz"
+URL="https://minecraft.dev.tisserand.org/${TARBALL}"
 
 apt-get update
 apt-get install -y git ansible curl tmux
@@ -15,6 +18,8 @@ echo "Running ansible"
 ansible-playbook -i ./inventory.local main.yml
 # At this step, minecraft user is created
 su - minecraft
+cd /home/minecraft/server/data
+curl -sfI "${URL}" && curl "${URL}" --output "${TARBALL}" && tar xzpf "${TARBALL}"
 cd /home/minecraft/server
 docker-compose up -d
 tmux new-session -d -s minecraft docker-compose logs -f
