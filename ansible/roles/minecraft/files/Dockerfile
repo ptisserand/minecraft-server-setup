@@ -1,9 +1,0 @@
-FROM ubuntu:18.04
-
-RUN apt-get update && apt-get install -y openjdk-8-jdk-headless && apt-get clean
-RUN useradd minecraft
-
-USER minecraft
-
-WORKDIR /data
-CMD [ "/usr/bin/java", "-Xms1G", "-Xmx1G", "-jar", "minecraft-server-1.13.2.jar", "nogui" ]
