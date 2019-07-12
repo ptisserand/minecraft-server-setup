@@ -1,3 +1,6 @@
+- name: Include minecraft version specific 
+  include_vars: minecraft-{{ MINECRAFT_VERSION }}.yml
+
 - name: Create minecraft data directory
   file:
     path: "{{ MINECRAFT_DATA_DIR }}"
@@ -13,7 +16,7 @@
 
 - name: Copy minecraft tarball
   unarchive:
-    src: minecraft-config-1.13.2.tar.gz
+    src: minecraft-config-{{ MINECRAFT_VERSION }}.tar.gz
     dest: "{{ MINECRAFT_DATA_DIR }}"
     owner: "{{ USER_NAME }}"
   become_user: "{{ USER_NAME }}"
@@ -32,12 +35,22 @@
   become_user: "{{ USER_NAME }}"
   when: inventory_hostname == "localhost"
 
-- name: Copy docker files
-  copy:
-    src: "{{ item }}"
-    dest: "{{ MINECRAFT_ROOT_DIR }}"
+- name: Create docker destination directory
+  file:
+    path: "{{ MINECRAFT_ROOT_DIR }}"
+    state: directory
     owner: "{{ USER_NAME }}"
-  with_items:
-    - Dockerfile
-    - docker-compose.yml
+
+- name: Copy Dockerfile
+  copy:
+    src: Dockerfile-{{ MINECRAFT_VERSION }}
+    dest: "{{ MINECRAFT_ROOT_DIR }}/Dockerfile"
+    owner: "{{ USER_NAME }}"
+  become_user: "{{ USER_NAME }}"
+
+- name: Copy docker-compose
+  copy:
+    src: docker-compose.yml
+    dest: "{{ MINECRAFT_ROOT_DIR }}/docker-compose.yml"
+    owner: "{{ USER_NAME }}"
   become_user: "{{ USER_NAME }}"
