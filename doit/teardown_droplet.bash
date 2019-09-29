@@ -39,7 +39,7 @@ minecraft_world_backup() {
 # Shutdown server
 server_shutdown() {
     echo "Server shutdown"
-    ssh_cmd ${USER} ${SERVER} poweroff
+    ssh_cmd ${USER} ${SERVER} poweroff || :
 }
 
 ##########################################
@@ -57,7 +57,9 @@ destroy_domain() {
 }
 
 # minecraft_stop
-minecraft_world_backup ./world-shutdown-$(date +%Y-%m-%d_%H-%m).tar.gz
+if [ "x${NO_BACKUP}" == "x" ]; then
+    minecraft_world_backup ./world-shutdown-$(date +%Y-%m-%d_%H-%M).tar.gz
+fi
 
 if [ "x${FORCE}" == "x" ]; then
     server_shutdown
